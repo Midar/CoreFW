@@ -1,5 +1,7 @@
-AC_INIT(corefw, 0.1, js@webkeks.org)
+AC_INIT(CoreFW, 0.1, js@nil.im)
 AC_CONFIG_SRCDIR(src)
+AC_CONFIG_AUX_DIR(build-aux)
+AC_CONFIG_MACRO_DIR(build-aux/m4)
 
 AC_CANONICAL_HOST
 
@@ -14,7 +16,6 @@ AS_IF([test x"$GCC" = x"yes"], [
 
 BUILDSYS_SHARED_LIB
 BUILDSYS_INIT
-BUILDSYS_TOUCH_DEPS
 
 AC_CONFIG_FILES(buildsys.mk)
 AC_OUTPUT
