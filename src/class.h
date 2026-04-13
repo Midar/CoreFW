@@ -25,6 +25,9 @@
 #include <stdint.h>
 #include <stdarg.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 typedef struct CFWClass {
 	const char *name;
 	size_t size;
@@ -36,5 +39,8 @@ typedef struct CFWClass {
 } CFWClass;
 
 extern const char *cfw_class_name(CFWClass *);
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -22,8 +22,14 @@
 
 #include "class.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 typedef struct CFWDouble CFWDouble;
 extern CFWClass *cfw_double;
 extern double cfw_double_value(CFWDouble *);
+#ifdef __cplusplus
+}
+#endif
 
 #endif

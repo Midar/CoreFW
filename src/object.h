@@ -22,6 +22,9 @@
 
 #include "class.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 typedef struct CFWObject {
 	CFWClass *cls;
 	int ref_cnt;
@@ -38,5 +41,8 @@ extern bool cfw_is(void *, CFWClass *);
 extern bool cfw_equal(void *, void *);
 extern uint32_t cfw_hash(void *);
 extern void* cfw_copy(void *);
+#ifdef __cplusplus
+}
+#endif
 
 #endif

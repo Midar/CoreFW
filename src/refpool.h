@@ -22,8 +22,14 @@
 
 #include "class.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 typedef struct CFWRefPool CFWRefPool;
 extern CFWClass *cfw_refpool;
 extern bool cfw_refpool_add(void *);
+#ifdef __cplusplus
+}
+#endif
 
 #endif

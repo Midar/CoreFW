@@ -23,6 +23,9 @@
 #include "class.h"
 #include "range.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 typedef struct CFWString CFWString;
 extern CFWClass *cfw_string;
 extern size_t cfw_strnlen(const char *, size_t);
@@ -40,5 +43,8 @@ extern bool cfw_string_has_suffix(CFWString *, CFWString *);
 extern bool cfw_string_has_suffix_c(CFWString *, const char *);
 extern size_t cfw_string_find(CFWString *, CFWString *, cfw_range_t);
 extern size_t cfw_string_find_c(CFWString *, const char *, cfw_range_t);
+#ifdef __cplusplus
+}
+#endif
 
 #endif

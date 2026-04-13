@@ -22,6 +22,9 @@
 
 #include "class.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 typedef struct CFWArray CFWArray;
 extern CFWClass *cfw_array;
 extern size_t cfw_array_size(CFWArray *);
@@ -34,5 +37,8 @@ extern bool cfw_array_contains(CFWArray *, void *);
 extern bool cfw_array_contains_ptr(CFWArray *, void *);
 extern size_t cfw_array_find(CFWArray *, void *);
 extern size_t cfw_array_find_ptr(CFWArray *, void *);
+#ifdef __cplusplus
+}
+#endif
 
 #endif

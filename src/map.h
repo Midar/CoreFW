@@ -22,6 +22,9 @@
 
 #include "class.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 typedef struct CFWMap CFWMap;
 
 typedef struct cfw_map_iter_t {
@@ -39,5 +42,8 @@ extern bool cfw_map_set(CFWMap*, void *, void *);
 extern bool cfw_map_set_c(CFWMap*, const char *, void *);
 extern void cfw_map_iter(CFWMap*, cfw_map_iter_t *);
 extern void cfw_map_iter_next(cfw_map_iter_t*);
+#ifdef __cplusplus
+}
+#endif
 
 #endif

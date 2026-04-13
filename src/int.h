@@ -22,8 +22,14 @@
 
 #include "class.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 typedef struct CFWInt CFWInt;
 extern CFWClass *cfw_int;
 extern intmax_t cfw_int_value(CFWInt *);
+#ifdef __cplusplus
+}
+#endif
 
 #endif

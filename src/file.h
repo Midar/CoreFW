@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2012, 2026 Jonathan Schleifer <js@nil.im>
  *
  * All rights reserved.
  *
@@ -22,6 +22,9 @@
 
 #include "class.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 typedef struct CFWFile CFWFile;
 
 extern CFWClass *cfw_file;
@@ -29,5 +32,8 @@ extern CFWClass *cfw_file;
 extern CFWFile *cfw_stdin;
 extern CFWFile *cfw_stdout;
 extern CFWFile *cfw_stderr;
+#ifdef __cplusplus
+}
+#endif
 
 #endif

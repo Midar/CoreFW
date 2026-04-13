@@ -22,8 +22,14 @@
 
 #include "class.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 typedef struct CFWBool CFWBool;
 extern CFWClass *cfw_bool;
 extern bool cfw_bool_value(CFWBool *);
+#ifdef __cplusplus
+}
+#endif
 
 #endif

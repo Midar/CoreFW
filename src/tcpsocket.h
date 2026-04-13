@@ -20,9 +20,15 @@
 #ifndef __COREFW_TCPSOCKET_H__
 #define __COREFW_TCPSOCKET_H__
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 typedef struct CFWTCPSocket CFWTCPSocket;
 
 extern CFWClass *cfw_tcpsocket;
 extern bool cfw_tcpsocket_connect(CFWTCPSocket *, const char *, uint16_t);
+#ifdef __cplusplus
+}
+#endif
 
 #endif

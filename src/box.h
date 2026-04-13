@@ -22,9 +22,15 @@
 
 #include "class.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 typedef struct CFWBox CFWBox;
 extern CFWClass *cfw_box;
 extern void *cfw_box_ptr(CFWBox *);
 extern uint32_t cfw_box_type(CFWBox *);
+#ifdef __cplusplus
+}
+#endif
 
 #endif

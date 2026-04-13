@@ -26,6 +26,9 @@
 #include "object.h"
 #include "string.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 struct cfw_stream_ops {
 	ssize_t (*read)(void *, void *, size_t);
 	bool (*write)(void *, const void *, size_t);
@@ -48,4 +51,8 @@ extern bool cfw_stream_write_string(void *, const char *);
 extern bool cfw_stream_write_line(void *, const char *);
 extern bool cfw_stream_at_end(void *);
 extern void cfw_stream_close(void *);
+#ifdef __cplusplus
+}
+#endif
+
 #endif
