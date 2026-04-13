@@ -35,7 +35,7 @@ typedef struct cfw_map_iter_t {
 } cfw_map_iter_t;
 
 extern CFWClass *cfw_map;
-extern size_t cfw_map_size(CFWMap *);
+extern size_t cfw_map_count(CFWMap *);
 extern void *cfw_map_get(CFWMap*, void *);
 extern void *cfw_map_get_c(CFWMap*, const char *);
 extern bool cfw_map_set(CFWMap*, void *, void *);

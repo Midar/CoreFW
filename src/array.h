@@ -27,7 +27,7 @@ extern "C" {
 #endif
 typedef struct CFWArray CFWArray;
 extern CFWClass *cfw_array;
-extern size_t cfw_array_size(CFWArray *);
+extern size_t cfw_array_count(CFWArray *);
 extern void *cfw_array_get(CFWArray *, size_t);
 extern bool cfw_array_set(CFWArray *, size_t, void *);
 extern bool cfw_array_push(CFWArray *, void *);

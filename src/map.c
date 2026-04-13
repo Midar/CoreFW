@@ -33,7 +33,7 @@ struct CFWMap {
 	CFWObject obj;
 	struct bucket **data;
 	uint32_t size;
-	size_t items;
+	size_t count;
 };
 
 static bool
@@ -44,7 +44,7 @@ ctor(void *ptr, va_list args)
 
 	map->data = NULL;
 	map->size = 0;
-	map->items = 0;
+	map->count = 0;
 
 	while ((key = va_arg(args, void *)) != CFW_NIL)
 		if (!cfw_map_set(map, key, va_arg(args, void *)))
@@ -84,7 +84,7 @@ equal(void *ptr1, void *ptr2)
 	map1 = ptr1;
 	map2 = ptr2;
 
-	if (map1->items != map2->items)
+	if (map1->count != map2->count)
 		return false;
 
 	for (i = 0; i < map1->size; i++)
@@ -146,13 +146,13 @@ copy(void *ptr)
 }
 
 bool
-resize(CFWMap *map, uint32_t items)
+resize(CFWMap *map, uint32_t count)
 {
-	size_t fullness = items * 4 / map->size;
+	size_t fullness = count * 4 / map->size;
 	struct bucket **ndata;
 	uint32_t i, nsize;
 
-	if (items > UINT32_MAX)
+	if (count > UINT32_MAX)
 		return false;
 
 	if (fullness >= 3)
@@ -201,9 +201,9 @@ resize(CFWMap *map, uint32_t items)
 }
 
 size_t
-cfw_map_size(CFWMap *map)
+cfw_map_count(CFWMap *map)
 {
-	return map->items;
+	return map->count;
 }
 
 void *
@@ -273,7 +273,7 @@ cfw_map_set(CFWMap *map, void *key, void *obj)
 
 		map->data[0] = NULL;
 		map->size = 1;
-		map->items = 0;
+		map->count = 0;
 	}
 
 	hash = cfw_hash(key);
@@ -309,7 +309,7 @@ cfw_map_set(CFWMap *map, void *key, void *obj)
 		if (obj == CFW_NIL)
 			return true;
 
-		if (!resize(map, map->items + 1))
+		if (!resize(map, map->count + 1))
 			return false;
 
 		last = map->size;
@@ -340,7 +340,7 @@ cfw_map_set(CFWMap *map, void *key, void *obj)
 		bucket->hash = cfw_hash(key);
 
 		map->data[i] = bucket;
-		map->items++;
+		map->count++;
 
 		return true;
 	}
@@ -356,9 +356,9 @@ cfw_map_set(CFWMap *map, void *key, void *obj)
 		free(map->data[i]);
 		map->data[i] = &deleted;
 
-		map->items--;
+		map->count--;
 
-		if (!resize(map, map->items))
+		if (!resize(map, map->count))
 			return false;
 	}
 

@@ -67,7 +67,7 @@ main(void)
 
 	str = cfw_new(cfw_string, CFW_NIL);
 
-	for (i = 0; i < cfw_array_size(array); i++)
+	for (i = 0; i < cfw_array_count(array); i++)
 		cfw_string_append(str, cfw_array_get(array, i));
 
 	cfw_release(pool);

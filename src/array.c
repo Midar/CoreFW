@@ -27,7 +27,7 @@
 struct CFWArray {
 	CFWObject obj;
 	void **data;
-	size_t size;
+	size_t count;
 };
 
 static bool
@@ -37,7 +37,7 @@ ctor(void *ptr, va_list args)
 	void *obj;
 
 	array->data = NULL;
-	array->size = 0;
+	array->count = 0;
 
 	while ((obj = va_arg(args, void *)) != CFW_NIL)
 		if (!cfw_array_push(array, obj))
@@ -52,7 +52,7 @@ dtor(void *ptr)
 	CFWArray *array = ptr;
 	size_t i;
 
-	for (i = 0; i < array->size; i++)
+	for (i = 0; i < array->count; i++)
 		cfw_release(array->data[i]);
 
 	if (array->data != NULL)
@@ -72,10 +72,10 @@ equal(void *ptr1, void *ptr2)
 	array1 = ptr1;
 	array2 = ptr2;
 
-	if (array1->size != array2->size)
+	if (array1->count != array2->count)
 		return false;
 
-	for (i = 0; i < array1->size; i++)
+	for (i = 0; i < array1->count; i++)
 		if (cfw_equal(array1->data[i], array2->data[i]))
 			return false;
 
@@ -91,7 +91,7 @@ hash(void *ptr)
 
 	CFW_HASH_INIT(hash);
 
-	for (i = 0; i < array->size; i++)
+	for (i = 0; i < array->count; i++)
 		CFW_HASH_ADD_HASH(hash, cfw_hash(array->data[i]));
 
 	CFW_HASH_FINALIZE(hash);
@@ -109,13 +109,13 @@ copy(void *ptr)
 	if ((new = cfw_new(cfw_array, CFW_NIL)) == CFW_NIL)
 		return CFW_NIL;
 
-	if ((new->data = malloc(sizeof(void *) * array->size)) == NULL) {
+	if ((new->data = malloc(sizeof(void *) * array->count)) == NULL) {
 		cfw_release(new);
 		return CFW_NIL;
 	}
-	new->size = array->size;
+	new->count = array->count;
 
-	for (i = 0; i < array->size; i++)
+	for (i = 0; i < array->count; i++)
 		new->data[i] = cfw_retain(array->data[i]);
 
 	return new;
@@ -124,16 +124,16 @@ copy(void *ptr)
 void *
 cfw_array_get(CFWArray *array, size_t index)
 {
-	if (index >= array->size)
+	if (index >= array->count)
 		return CFW_NIL;
 
 	return array->data[index];
 }
 
 size_t
-cfw_array_size(CFWArray *array)
+cfw_array_count(CFWArray *array)
 {
-	return array->size;
+	return array->count;
 }
 
 bool
@@ -142,7 +142,7 @@ cfw_array_set(CFWArray *array, size_t index, void *ptr)
 	CFWObject *obj = ptr;
 	CFWObject *old;
 
-	if (index >= array->size)
+	if (index >= array->count)
 		return false;
 
 	cfw_retain(obj);
@@ -162,15 +162,15 @@ cfw_array_push(CFWArray *array, void *ptr)
 	if (array->data == NULL)
 		new = malloc(sizeof(void *));
 	else
-		new = realloc(array->data, sizeof(void *) * (array->size + 1));
+		new = realloc(array->data, sizeof(void *) * (array->count + 1));
 
 	if (new == NULL)
 		return false;
 
-	new[array->size] = cfw_retain(obj);
+	new[array->count] = cfw_retain(obj);
 
 	array->data = new;
-	array->size++;
+	array->count++;
 
 	return true;
 }
@@ -178,10 +178,10 @@ cfw_array_push(CFWArray *array, void *ptr)
 void *
 cfw_array_last(CFWArray *array)
 {
-	if (array->size == 0)
+	if (array->count == 0)
 		return CFW_NIL;
 
-	return array->data[array->size - 1];
+	return array->data[array->count - 1];
 }
 
 bool
@@ -190,27 +190,27 @@ cfw_array_pop(CFWArray *array)
 	void **new;
 	void *last;
 
-	if (array->size == 0)
+	if (array->count == 0)
 		return false;
 
-	if (array->size == 1) {
+	if (array->count == 1) {
 		cfw_release(array->data[0]);
 		free(array->data);
 		array->data = NULL;
-		array->size = 0;
+		array->count = 0;
 		return true;
 	}
 
-	last = array->data[array->size - 1];
+	last = array->data[array->count - 1];
 
-	new = realloc(array->data, sizeof(void *) * (array->size - 1));
+	new = realloc(array->data, sizeof(void *) * (array->count - 1));
 	if (new == NULL)
 		return false;
 
 	cfw_release(last);
 
 	array->data = new;
-	array->size--;
+	array->count--;
 
 	return true;
 }
@@ -220,7 +220,7 @@ cfw_array_contains(CFWArray *array, void *ptr)
 {
 	size_t i;
 
-	for (i = 0; i < array->size; i++)
+	for (i = 0; i < array->count; i++)
 		if (cfw_equal(array->data[i], ptr))
 			return true;
 
@@ -232,7 +232,7 @@ cfw_array_contains_ptr(CFWArray *array, void *ptr)
 {
 	size_t i;
 
-	for (i = 0; i < array->size; i++)
+	for (i = 0; i < array->count; i++)
 		if (array->data[i] == ptr)
 			return true;
 
@@ -244,7 +244,7 @@ cfw_array_find(CFWArray *array, void *ptr)
 {
 	size_t i;
 
-	for (i = 0; i < array->size; i++)
+	for (i = 0; i < array->count; i++)
 		if (cfw_equal(array->data[i], ptr))
 			return i;
 
@@ -256,7 +256,7 @@ cfw_array_find_ptr(CFWArray *array, void *ptr)
 {
 	size_t i;
 
-	for (i = 0; i < array->size; i++)
+	for (i = 0; i < array->count; i++)
 		if (array->data[i] == ptr)
 			return i;
 
