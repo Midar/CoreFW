@@ -29,9 +29,7 @@
 static void
 print_map(CFWMap *map)
 {
-	cfw_map_iter_t iter;
-
-	cfw_map_iter(map, &iter);
+	cfw_map_iter_t iter = cfw_map_iter(map);
 
 	fputs("{\n", stdout);
 

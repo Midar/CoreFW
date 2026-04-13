@@ -381,13 +381,17 @@ cfw_map_set_c(CFWMap *map, const char *key, void *obj)
 	return ret;
 }
 
-void
-cfw_map_iter(CFWMap *map, cfw_map_iter_t *iter)
+cfw_map_iter_t
+cfw_map_iter(CFWMap *map)
 {
-	iter->_map = map;
-	iter->_pos = 0;
+	cfw_map_iter_t iter = {
+		._map = map,
+		._pos = 0
+	};
 
-	cfw_map_iter_next(iter);
+	cfw_map_iter_next(&iter);
+
+	return iter;
 }
 
 void
