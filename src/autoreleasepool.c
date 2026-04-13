@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2012, 2026 Jonathan Schleifer <js@nil.im>
  *
  * All rights reserved.
  *
@@ -21,22 +21,22 @@
 #include <assert.h>
 
 #include "object.h"
-#include "refpool.h"
 #include "array.h"
+#include "autoreleasepool.h"
 
-struct CFWRefPool {
+struct CFWAutoreleasePool {
 	CFWObject obj;
 	void **data;
 	size_t size;
-	CFWRefPool *prev, *next;
+	CFWAutoreleasePool *prev, *next;
 };
 
-static CFWRefPool *top;
+static CFWAutoreleasePool *top;
 
 static bool
 ctor(void *ptr, va_list args)
 {
-	CFWRefPool *pool = ptr;
+	CFWAutoreleasePool *pool = ptr;
 
 	pool->data = NULL;
 	pool->size = 0;
@@ -56,14 +56,14 @@ ctor(void *ptr, va_list args)
 static void
 dtor(void *ptr)
 {
-	CFWRefPool *pool = ptr;
+	CFWAutoreleasePool *pool = ptr;
 	size_t i;
 
 	if (pool->next != NULL)
-		cfw_unref(pool->next);
+		cfw_release(pool->next);
 
 	for (i = 0; i < pool->size; i++)
-		cfw_unref(pool->data[i]);
+		cfw_release(pool->data[i]);
 
 	if (pool->data != NULL)
 		free(pool->data);
@@ -75,7 +75,7 @@ dtor(void *ptr)
 }
 
 bool
-cfw_refpool_add(void *ptr)
+cfw_autoreleasepool_add(void *ptr)
 {
 	void **ndata;
 
@@ -97,9 +97,9 @@ cfw_refpool_add(void *ptr)
 }
 
 static CFWClass class = {
-	.name = "CFWRefPool",
-	.size = sizeof(CFWRefPool),
+	.name = "CFWAutoreleasePool",
+	.size = sizeof(CFWAutoreleasePool),
 	.ctor = ctor,
 	.dtor = dtor
 };
-CFWClass *cfw_refpool = &class;
+CFWClass *cfw_autoreleasepool = &class;

@@ -150,7 +150,7 @@ copy(void *ptr)
 		return NULL;
 
 	if ((new->data = malloc(str->len + 1)) == NULL) {
-		cfw_unref(new);
+		cfw_release(new);
 		return NULL;
 	}
 	new->len = str->len;

@@ -172,7 +172,7 @@ static CFWFile cfw_stdin_ = {
 	.stream = {
 		.obj = {
 			.cls = &class,
-			.ref_cnt = INT_MAX
+			.retain_cnt = INT_MAX
 		},
 		.ops = &stream_ops
 	},
@@ -183,7 +183,7 @@ static CFWFile cfw_stdout_ = {
 	.stream = {
 		.obj = {
 			.cls = &class,
-			.ref_cnt = INT_MAX
+			.retain_cnt = INT_MAX
 		},
 		.ops = &stream_ops
 	},
@@ -194,7 +194,7 @@ static CFWFile cfw_stderr_ = {
 	.stream = {
 		.obj = {
 			.cls = &class,
-			.ref_cnt = INT_MAX
+			.retain_cnt = INT_MAX
 		},
 		.ops = &stream_ops
 	},

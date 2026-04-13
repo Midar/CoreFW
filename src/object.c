@@ -21,7 +21,7 @@
 #include <assert.h>
 
 #include "object.h"
-#include "refpool.h"
+#include "autoreleasepool.h"
 
 void *
 cfw_new(CFWClass *class, ...)
@@ -32,14 +32,14 @@ cfw_new(CFWClass *class, ...)
 		return NULL;
 
 	obj->cls = class;
-	obj->ref_cnt = 1;
+	obj->retain_cnt = 1;
 
 	if (class->ctor != NULL) {
 		va_list args;
 		va_start(args, class);
 
 		if (!class->ctor(obj, args)) {
-			cfw_unref(obj);
+			cfw_release(obj);
 			return NULL;
 		}
 
@@ -54,28 +54,28 @@ cfw_create(CFWClass *class, ...)
 {
 	CFWObject *obj;
 
-	assert(class != cfw_refpool);
+	assert(class != cfw_autoreleasepool);
 
 	if ((obj = malloc(class->size)) == NULL)
 		return NULL;
 
 	obj->cls = class;
-	obj->ref_cnt = 1;
+	obj->retain_cnt = 1;
 
 	if (class->ctor != NULL) {
 		va_list args;
 		va_start(args, class);
 
 		if (!class->ctor(obj, args)) {
-			cfw_unref(obj);
+			cfw_release(obj);
 			return NULL;
 		}
 
 		va_end(args);
 	}
 
-	if (!cfw_refpool_add(obj)) {
-		cfw_unref(obj);
+	if (!cfw_autoreleasepool_add(obj)) {
+		cfw_release(obj);
 		return NULL;
 	}
 
@@ -83,32 +83,32 @@ cfw_create(CFWClass *class, ...)
 }
 
 void *
-cfw_ref(void *ptr)
+cfw_retain(void *ptr)
 {
 	CFWObject *obj = ptr;
 
 	if (obj == NULL)
 		return NULL;
 
-	obj->ref_cnt++;
+	obj->retain_cnt++;
 
 	return obj;
 }
 
 void
-cfw_unref(void *ptr)
+cfw_release(void *ptr)
 {
 	CFWObject *obj = ptr;
 
 	if (obj == NULL)
 		return;
 
-	if (--obj->ref_cnt == 0)
-		cfw_free(obj);
+	if (--obj->retain_cnt == 0)
+		cfw_dealloc(obj);
 }
 
 void
-cfw_free(void *ptr)
+cfw_dealloc(void *ptr)
 {
 	CFWObject *obj = ptr;
 
@@ -121,7 +121,7 @@ cfw_free(void *ptr)
 	free(obj);
 }
 
-CFWClass*
+CFWClass *
 cfw_class(void *ptr)
 {
 	CFWObject *obj = ptr;
@@ -154,9 +154,9 @@ cfw_equal(void *ptr1, void *ptr2)
 	if (obj1 == NULL || obj2 == NULL)
 		return false;
 
-	if (obj1->cls->equal != NULL) {
+	if (obj1->cls->equal != NULL)
 		return obj1->cls->equal(obj1, obj2);
-	} else
+	else
 		return (obj1 == obj2);
 }
 

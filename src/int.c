@@ -61,7 +61,7 @@ hash(void *ptr)
 static void *
 copy(void *ptr)
 {
-	return cfw_ref(ptr);
+	return cfw_retain(ptr);
 }
 
 intmax_t

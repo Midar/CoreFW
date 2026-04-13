@@ -61,8 +61,8 @@ dtor(void *ptr)
 
 	for (i = 0; i < map->size; i++) {
 		if (map->data[i] != NULL && map->data[i] != &deleted) {
-			cfw_unref(map->data[i]->key);
-			cfw_unref(map->data[i]->obj);
+			cfw_release(map->data[i]->key);
+			cfw_release(map->data[i]->obj);
 			free(map->data[i]);
 		}
 	}
@@ -133,8 +133,8 @@ copy(void *ptr)
 			if ((bucket = malloc(sizeof(*bucket))) == NULL)
 				return NULL;
 
-			bucket->key = cfw_ref(map->data[i]->key);
-			bucket->obj = cfw_ref(map->data[i]->obj);
+			bucket->key = cfw_retain(map->data[i]->key);
+			bucket->obj = cfw_retain(map->data[i]->obj);
 			bucket->hash = map->data[i]->hash;
 
 			new->data[i] = bucket;
@@ -254,7 +254,7 @@ cfw_map_get_c(CFWMap *map, const char *key)
 
 	ret = cfw_map_get(map, str);
 
-	cfw_unref(str);
+	cfw_release(str);
 
 	return ret;
 }
@@ -336,7 +336,7 @@ cfw_map_set(CFWMap *map, void *key, void *obj)
 			return false;
 		}
 
-		bucket->obj = cfw_ref(obj);
+		bucket->obj = cfw_retain(obj);
 		bucket->hash = cfw_hash(key);
 
 		map->data[i] = bucket;
@@ -347,11 +347,11 @@ cfw_map_set(CFWMap *map, void *key, void *obj)
 
 	if (obj != NULL) {
 		void *old = map->data[i]->obj;
-		map->data[i]->obj = cfw_ref(obj);
-		cfw_unref(old);
+		map->data[i]->obj = cfw_retain(obj);
+		cfw_release(old);
 	} else {
-		cfw_unref(map->data[i]->key);
-		cfw_unref(map->data[i]->obj);
+		cfw_release(map->data[i]->key);
+		cfw_release(map->data[i]->obj);
 
 		free(map->data[i]);
 		map->data[i] = &deleted;
@@ -376,7 +376,7 @@ cfw_map_set_c(CFWMap *map, const char *key, void *obj)
 
 	ret = cfw_map_set(map, str, obj);
 
-	cfw_unref(str);
+	cfw_release(str);
 
 	return ret;
 }

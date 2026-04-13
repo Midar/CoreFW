@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2014 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2012, 2014, 2026 Jonathan Schleifer <js@nil.im>
  *
  * All rights reserved.
  *
@@ -20,7 +20,7 @@
 #include <stdio.h>
 
 #include "object.h"
-#include "refpool.h"
+#include "autoreleasepool.h"
 #include "string.h"
 #include "int.h"
 #include "array.h"
@@ -52,13 +52,13 @@ print_map(CFWMap *map)
 int
 main(void)
 {
-	CFWRefPool *pool;
+	CFWAutoreleasePool *pool;
 	CFWArray *array;
 	CFWString *str, *str2;
 	CFWMap *map;
 	size_t i;
 
-	pool = cfw_new(cfw_refpool);
+	pool = cfw_new(cfw_autoreleasepool);
 
 	array = cfw_create(cfw_array,
 	    cfw_create(cfw_string, "Hallo"),
@@ -70,18 +70,18 @@ main(void)
 	for (i = 0; i < cfw_array_size(array); i++)
 		cfw_string_append(str, cfw_array_get(array, i));
 
-	cfw_unref(pool);
+	cfw_release(pool);
 
 	puts(cfw_string_c(str));
 
-	pool = cfw_new(cfw_refpool);
+	pool = cfw_new(cfw_autoreleasepool);
 	str2 = cfw_create(cfw_string, "ll");
 	printf("%zd\n", cfw_string_find(str, str2, cfw_range_all));
 
-	cfw_unref(pool);
-	cfw_unref(str);
+	cfw_release(pool);
+	cfw_release(str);
 
-	pool = cfw_new(cfw_refpool);
+	pool = cfw_new(cfw_autoreleasepool);
 
 	map = cfw_create(cfw_map,
 	    cfw_create(cfw_string, "Hallo"),
@@ -102,7 +102,7 @@ main(void)
 	cfw_map_set(map, cfw_create(cfw_string, "Hallo"), NULL);
 	print_map(map);
 
-	cfw_unref(pool);
+	cfw_release(pool);
 
 	return 0;
 }

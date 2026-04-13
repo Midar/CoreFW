@@ -27,20 +27,20 @@ extern "C" {
 #endif
 typedef struct CFWObject {
 	CFWClass *cls;
-	int ref_cnt;
+	int retain_cnt;
 } CFWObject;
 
 extern CFWClass *cfw_object;
 extern void *cfw_new(CFWClass *, ...);
 extern void *cfw_create(CFWClass *, ...);
-extern void *cfw_ref(void *);
-extern void cfw_unref(void *);
-extern void cfw_free(void *);
+extern void *cfw_retain(void *);
+extern void cfw_release(void *);
+extern void cfw_dealloc(void *);
 extern CFWClass* cfw_class(void *);
 extern bool cfw_is(void *, CFWClass *);
 extern bool cfw_equal(void *, void *);
 extern uint32_t cfw_hash(void *);
-extern void* cfw_copy(void *);
+extern void *cfw_copy(void *);
 #ifdef __cplusplus
 }
 #endif

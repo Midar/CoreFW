@@ -53,7 +53,7 @@ dtor(void *ptr)
 	size_t i;
 
 	for (i = 0; i < array->size; i++)
-		cfw_unref(array->data[i]);
+		cfw_release(array->data[i]);
 
 	if (array->data != NULL)
 		free(array->data);
@@ -110,13 +110,13 @@ copy(void *ptr)
 		return NULL;
 
 	if ((new->data = malloc(sizeof(void *) * array->size)) == NULL) {
-		cfw_unref(new);
+		cfw_release(new);
 		return NULL;
 	}
 	new->size = array->size;
 
 	for (i = 0; i < array->size; i++)
-		new->data[i] = cfw_ref(array->data[i]);
+		new->data[i] = cfw_retain(array->data[i]);
 
 	return new;
 }
@@ -145,10 +145,10 @@ cfw_array_set(CFWArray *array, size_t index, void *ptr)
 	if (index >= array->size)
 		return false;
 
-	cfw_ref(obj);
+	cfw_retain(obj);
 	old = array->data[index];
 	array->data[index] = obj;
-	cfw_unref(old);
+	cfw_release(old);
 
 	return true;
 }
@@ -167,7 +167,7 @@ cfw_array_push(CFWArray *array, void *ptr)
 	if (new == NULL)
 		return false;
 
-	new[array->size] = cfw_ref(obj);
+	new[array->size] = cfw_retain(obj);
 
 	array->data = new;
 	array->size++;
@@ -194,7 +194,7 @@ cfw_array_pop(CFWArray *array)
 		return NULL;
 
 	if (array->size == 1) {
-		cfw_unref(array->data[0]);
+		cfw_release(array->data[0]);
 		free(array->data);
 		array->data = NULL;
 		array->size = 0;
@@ -207,7 +207,7 @@ cfw_array_pop(CFWArray *array)
 	if (new == NULL)
 		return false;
 
-	cfw_unref(last);
+	cfw_release(last);
 
 	array->data = new;
 	array->size--;

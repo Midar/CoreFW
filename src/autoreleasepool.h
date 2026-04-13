@@ -17,17 +17,17 @@
  * <https://www.gnu.org/licenses/>.
  */
 
-#ifndef __COREFW_REFPOOL_H__
-#define __COREFW_REFPOOL_H__
+#ifndef __COREFW_AUTORELEASEPOOL_H__
+#define __COREFW_AUTORELEASEPOOL_H__
 
 #include "class.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-typedef struct CFWRefPool CFWRefPool;
-extern CFWClass *cfw_refpool;
-extern bool cfw_refpool_add(void *);
+typedef struct CFWAutoreleasePool CFWAutoreleasePool;
+extern CFWClass *cfw_autoreleasepool;
+extern bool cfw_autoreleasepool_add(void *);
 #ifdef __cplusplus
 }
 #endif
