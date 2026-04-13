@@ -48,7 +48,7 @@ cfw_stream_read(void *ptr, void *buf, size_t len)
 	CFWStream *stream = ptr;
 	ssize_t ret;
 
-	if (stream == NULL || stream->ops == NULL)
+	if (stream == CFW_NIL || stream->ops == NULL)
 		return -1;
 
 	if (stream->cache == NULL) {
@@ -104,19 +104,19 @@ cfw_stream_read_line(void *ptr)
 
 				ret_str = cfw_strndup(stream->cache, ret_len);
 				if (ret_str == NULL)
-					return NULL;
+					return CFW_NIL;
 
-				ret = cfw_create(cfw_string, (void*)NULL);
-				if (ret == NULL) {
+				ret = cfw_create(cfw_string, CFW_NIL);
+				if (ret == CFW_NIL) {
 					free(ret_str);
-					return NULL;
+					return CFW_NIL;
 				}
 				cfw_string_set_nocopy(ret, ret_str, ret_len);
 
 				if (stream->cache_len > i + 1) {
 					if ((new_cache = malloc(
 					    stream->cache_len - i - 1)) == NULL)
-						return NULL;
+						return CFW_NIL;
 					memcpy(new_cache, stream->cache + i + 1,
 					    stream->cache_len - i - 1);
 				} else
@@ -134,14 +134,14 @@ cfw_stream_read_line(void *ptr)
 	/* Read and see if we get a newline or \0 */
 
 	if ((buf = malloc(BUFFER_SIZE)) == NULL)
-		return NULL;
+		return CFW_NIL;
 
 	for (;;) {
 		if (stream->ops->at_end(stream)) {
 			free(buf);
 
 			if (stream->cache == NULL)
-				return NULL;
+				return CFW_NIL;
 
 			ret_len = stream->cache_len;
 
@@ -150,12 +150,12 @@ cfw_stream_read_line(void *ptr)
 
 			ret_str = cfw_strndup(stream->cache, ret_len);
 			if (ret_str == NULL)
-				return NULL;
+				return CFW_NIL;
 
-			ret = cfw_create(cfw_string, (void*)NULL);
-			if (ret == NULL) {
+			ret = cfw_create(cfw_string, CFW_NIL);
+			if (ret == CFW_NIL) {
 				free(ret_str);
-				return NULL;
+				return CFW_NIL;
 			}
 			cfw_string_set_nocopy(ret, ret_str, ret_len);
 
@@ -169,7 +169,7 @@ cfw_stream_read_line(void *ptr)
 		buf_len = stream->ops->read(stream, buf, BUFFER_SIZE);
 		if (buf_len == -1) {
 			free(buf);
-			return NULL;
+			return CFW_NIL;
 		}
 
 		/* Look if there's a newline or \0 */
@@ -183,7 +183,7 @@ cfw_stream_read_line(void *ptr)
 					 *	  Mark the stream as broken?
 					 */
 					free(buf);
-					return NULL;
+					return CFW_NIL;
 				}
 				memcpy(ret_str, stream->cache,
 				    stream->cache_len);
@@ -192,11 +192,11 @@ cfw_stream_read_line(void *ptr)
 					ret_len--;
 				ret_str[ret_len] = '\0';
 
-				ret = cfw_create(cfw_string, (void*)NULL);
-				if (ret == NULL) {
+				ret = cfw_create(cfw_string, CFW_NIL);
+				if (ret == CFW_NIL) {
 					free(buf);
 					free(ret_str);
-					return NULL;
+					return CFW_NIL;
 				}
 				cfw_string_set_nocopy(ret, ret_str, ret_len);
 
@@ -204,7 +204,7 @@ cfw_stream_read_line(void *ptr)
 					new_cache = malloc(buf_len - i - 1);
 					if (new_cache == NULL) {
 						free(buf);
-						return NULL;
+						return CFW_NIL;
 					}
 					memcpy(new_cache, buf + i + 1,
 					    buf_len - i - 1);
@@ -226,7 +226,7 @@ cfw_stream_read_line(void *ptr)
 			    stream->cache_len + buf_len);
 			if (new_cache == NULL) {
 				free(buf);
-				return NULL;
+				return CFW_NIL;
 			}
 			memcpy(new_cache + stream->cache_len, buf, buf_len);
 		} else {
@@ -244,7 +244,7 @@ cfw_stream_write(void *ptr, const void *buf, size_t len)
 {
 	CFWStream *stream = ptr;
 
-	if (stream == NULL || stream->ops == NULL)
+	if (stream == CFW_NIL || stream->ops == NULL)
 		return false;
 
 	return stream->ops->write(stream, buf, len);
@@ -285,7 +285,7 @@ cfw_stream_at_end(void *ptr)
 {
 	CFWStream *stream = ptr;
 
-	if (stream == NULL || stream->ops == NULL)
+	if (stream == CFW_NIL || stream->ops == NULL)
 		return true;
 
 	if (stream->cache != NULL)
@@ -299,7 +299,7 @@ cfw_stream_close(void *ptr)
 {
 	CFWStream *stream = ptr;
 
-	if (stream == NULL || stream->ops == NULL)
+	if (stream == CFW_NIL || stream->ops == NULL)
 		return;
 
 	stream->ops->close(stream);

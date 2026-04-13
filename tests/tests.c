@@ -35,7 +35,7 @@ print_map(CFWMap *map)
 
 	fputs("{\n", stdout);
 
-	while (iter.key != NULL) {
+	while (iter.key != CFW_NIL) {
 		printf("\t%s = ", cfw_string_c(iter.key));
 
 		if (cfw_is(iter.obj, cfw_string))
@@ -63,9 +63,9 @@ main(void)
 	array = cfw_create(cfw_array,
 	    cfw_create(cfw_string, "Hallo"),
 	    cfw_create(cfw_string, " Welt"),
-	    cfw_create(cfw_string, "!"), (void*)NULL);
+	    cfw_create(cfw_string, "!"), CFW_NIL);
 
-	str = cfw_new(cfw_string, (void*)NULL);
+	str = cfw_new(cfw_string, CFW_NIL);
 
 	for (i = 0; i < cfw_array_size(array); i++)
 		cfw_string_append(str, cfw_array_get(array, i));
@@ -89,7 +89,7 @@ main(void)
 	    cfw_create(cfw_string, "Test"),
 	    cfw_create(cfw_string, "success!"),
 	    cfw_create(cfw_string, "int"),
-	    cfw_create(cfw_int, INTMAX_C(1234)), NULL);
+	    cfw_create(cfw_int, INTMAX_C(1234)), CFW_NIL);
 
 	print_map(map);
 
@@ -99,7 +99,7 @@ main(void)
 
 	print_map(map);
 
-	cfw_map_set(map, cfw_create(cfw_string, "Hallo"), NULL);
+	cfw_map_set(map, cfw_create(cfw_string, "Hallo"), CFW_NIL);
 	print_map(map);
 
 	cfw_release(pool);

@@ -58,7 +58,7 @@ hash(void *ptr)
 	return (uint32_t)boolean->value;
 }
 
-static void*
+static void *
 copy(void *ptr)
 {
 	return cfw_retain(ptr);

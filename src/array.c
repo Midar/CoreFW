@@ -39,7 +39,7 @@ ctor(void *ptr, va_list args)
 	array->data = NULL;
 	array->size = 0;
 
-	while ((obj = va_arg(args, void *)) != NULL)
+	while ((obj = va_arg(args, void *)) != CFW_NIL)
 		if (!cfw_array_push(array, obj))
 			return false;
 
@@ -106,12 +106,12 @@ copy(void *ptr)
 	CFWArray *new;
 	size_t i;
 
-	if ((new = cfw_new(cfw_array, (void *)NULL)) == NULL)
-		return NULL;
+	if ((new = cfw_new(cfw_array, CFW_NIL)) == CFW_NIL)
+		return CFW_NIL;
 
 	if ((new->data = malloc(sizeof(void *) * array->size)) == NULL) {
 		cfw_release(new);
-		return NULL;
+		return CFW_NIL;
 	}
 	new->size = array->size;
 
@@ -125,7 +125,7 @@ void *
 cfw_array_get(CFWArray *array, size_t index)
 {
 	if (index >= array->size)
-		return NULL;
+		return CFW_NIL;
 
 	return array->data[index];
 }
@@ -179,7 +179,7 @@ void *
 cfw_array_last(CFWArray *array)
 {
 	if (array->size == 0)
-		return NULL;
+		return CFW_NIL;
 
 	return array->data[array->size - 1];
 }
@@ -191,7 +191,7 @@ cfw_array_pop(CFWArray *array)
 	void *last;
 
 	if (array->size == 0)
-		return NULL;
+		return false;
 
 	if (array->size == 1) {
 		cfw_release(array->data[0]);
@@ -203,7 +203,7 @@ cfw_array_pop(CFWArray *array)
 
 	last = array->data[array->size - 1];
 
-	new = realloc(array->data, sizeof(void*) * (array->size - 1));
+	new = realloc(array->data, sizeof(void *) * (array->size - 1));
 	if (new == NULL)
 		return false;
 

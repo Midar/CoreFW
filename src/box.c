@@ -50,7 +50,7 @@ dtor(void *ptr)
 		free(box->ptr);
 }
 
-void*
+void *
 cfw_box_ptr(CFWBox *box)
 {
 	return box->ptr;

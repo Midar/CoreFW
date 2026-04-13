@@ -31,7 +31,7 @@ struct CFWAutoreleasePool {
 	CFWAutoreleasePool *prev, *next;
 };
 
-static CFWAutoreleasePool *top;
+static CFWAutoreleasePool *top = CFW_NIL;
 
 static bool
 ctor(void *ptr, va_list args)
@@ -41,12 +41,12 @@ ctor(void *ptr, va_list args)
 	pool->data = NULL;
 	pool->size = 0;
 
-	if (top != NULL) {
+	if (top != CFW_NIL) {
 		pool->prev = top;
 		top->next = pool;
 	} else
-		pool->prev = NULL;
-	pool->next = NULL;
+		pool->prev = CFW_NIL;
+	pool->next = CFW_NIL;
 
 	top = pool;
 
@@ -59,7 +59,7 @@ dtor(void *ptr)
 	CFWAutoreleasePool *pool = ptr;
 	size_t i;
 
-	if (pool->next != NULL)
+	if (pool->next != CFW_NIL)
 		cfw_release(pool->next);
 
 	for (i = 0; i < pool->size; i++)
@@ -70,8 +70,8 @@ dtor(void *ptr)
 
 	top = pool->prev;
 
-	if (top != NULL)
-		top->next = NULL;
+	if (top != CFW_NIL)
+		top->next = CFW_NIL;
 }
 
 bool
@@ -79,12 +79,12 @@ cfw_autoreleasepool_add(void *ptr)
 {
 	void **ndata;
 
-	assert(top != NULL);
+	assert(top != CFW_NIL);
 
 	if (top->data != NULL)
-		ndata = realloc(top->data, (top->size + 1) * sizeof(void*));
+		ndata = realloc(top->data, (top->size + 1) * sizeof(void *));
 	else
-		ndata = malloc((top->size + 1) * sizeof(void*));
+		ndata = malloc((top->size + 1) * sizeof(void *));
 
 	if (ndata == NULL)
 		return false;

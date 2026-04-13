@@ -22,6 +22,8 @@
 
 #include "class.h"
 
+#define CFW_NIL ((void *)NULL)
+
 #ifdef __cplusplus
 extern "C" {
 #endif

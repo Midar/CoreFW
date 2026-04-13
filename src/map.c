@@ -27,7 +27,7 @@
 static struct bucket {
 	CFWObject *key, *obj;
 	uint32_t hash;
-} deleted = { NULL, NULL, 0 };
+} deleted = { CFW_NIL, CFW_NIL, 0 };
 
 struct CFWMap {
 	CFWObject obj;
@@ -46,7 +46,7 @@ ctor(void *ptr, va_list args)
 	map->size = 0;
 	map->items = 0;
 
-	while ((key = va_arg(args, void *)) != NULL)
+	while ((key = va_arg(args, void *)) != CFW_NIL)
 		if (!cfw_map_set(map, key, va_arg(args, void *)))
 			return false;
 
@@ -119,11 +119,11 @@ copy(void *ptr)
 	CFWMap *new;
 	uint32_t i;
 
-	if ((new = cfw_new(cfw_map, (void *)NULL)) == NULL)
-		return NULL;
+	if ((new = cfw_new(cfw_map, CFW_NIL)) == CFW_NIL)
+		return CFW_NIL;
 
 	if ((new->data = malloc(sizeof(*new->data) * map->size)) == NULL)
-		return NULL;
+		return CFW_NIL;
 	new->size = map->size;
 
 	for (i = 0; i < map->size; i++) {
@@ -131,7 +131,7 @@ copy(void *ptr)
 			struct bucket *bucket;
 
 			if ((bucket = malloc(sizeof(*bucket))) == NULL)
-				return NULL;
+				return CFW_NIL;
 
 			bucket->key = cfw_retain(map->data[i]->key);
 			bucket->obj = cfw_retain(map->data[i]->obj);
@@ -211,8 +211,8 @@ cfw_map_get(CFWMap *map, void *key)
 {
 	uint32_t i, hash, last;
 
-	if (key == NULL)
-		return NULL;
+	if (key == CFW_NIL)
+		return CFW_NIL;
 
 	hash = cfw_hash(key);
 	last = map->size;
@@ -227,7 +227,7 @@ cfw_map_get(CFWMap *map, void *key)
 	}
 
 	if (i < last)
-		return NULL;
+		return CFW_NIL;
 
 	/* In case the last bucket is already used */
 	last = hash & (map->size - 1);
@@ -240,7 +240,7 @@ cfw_map_get(CFWMap *map, void *key)
 			return map->data[i]->obj;
 	}
 
-	return NULL;
+	return CFW_NIL;
 }
 
 void *
@@ -249,8 +249,8 @@ cfw_map_get_c(CFWMap *map, const char *key)
 	CFWString *str;
 	void *ret;
 
-	if ((str = cfw_new(cfw_string, key)) == NULL)
-		return NULL;
+	if ((str = cfw_new(cfw_string, key)) == CFW_NIL)
+		return CFW_NIL;
 
 	ret = cfw_map_get(map, str);
 
@@ -264,7 +264,7 @@ cfw_map_set(CFWMap *map, void *key, void *obj)
 {
 	uint32_t i, hash, last;
 
-	if (key == NULL)
+	if (key == CFW_NIL)
 		return false;
 
 	if (map->data == NULL) {
@@ -306,7 +306,7 @@ cfw_map_set(CFWMap *map, void *key, void *obj)
 	    !cfw_equal(map->data[i]->key, key)) {
 		struct bucket *bucket;
 
-		if (obj == NULL)
+		if (obj == CFW_NIL)
 			return true;
 
 		if (!resize(map, map->items + 1))
@@ -331,7 +331,7 @@ cfw_map_set(CFWMap *map, void *key, void *obj)
 		if ((bucket = malloc(sizeof(*bucket))) == NULL)
 			return false;
 
-		if ((bucket->key = cfw_copy(key)) == NULL) {
+		if ((bucket->key = cfw_copy(key)) == CFW_NIL) {
 			free(bucket);
 			return false;
 		}
@@ -345,7 +345,7 @@ cfw_map_set(CFWMap *map, void *key, void *obj)
 		return true;
 	}
 
-	if (obj != NULL) {
+	if (obj != CFW_NIL) {
 		void *old = map->data[i]->obj;
 		map->data[i]->obj = cfw_retain(obj);
 		cfw_release(old);
@@ -371,7 +371,7 @@ cfw_map_set_c(CFWMap *map, const char *key, void *obj)
 	CFWString *str;
 	bool ret;
 
-	if ((str = cfw_new(cfw_string, key)) == NULL)
+	if ((str = cfw_new(cfw_string, key)) == CFW_NIL)
 		return false;
 
 	ret = cfw_map_set(map, str, obj);
@@ -404,8 +404,8 @@ cfw_map_iter_next(cfw_map_iter_t *iter)
 		iter->obj = map->data[iter->_pos]->obj;
 		iter->_pos++;
 	} else {
-		iter->key = NULL;
-		iter->obj = NULL;
+		iter->key = CFW_NIL;
+		iter->obj = CFW_NIL;
 	}
 }
 

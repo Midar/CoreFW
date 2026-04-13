@@ -146,12 +146,12 @@ copy(void *ptr)
 	CFWString *str = ptr;
 	CFWString *new;
 
-	if ((new = cfw_new(cfw_string, (void *)NULL)) == NULL)
-		return NULL;
+	if ((new = cfw_new(cfw_string, CFW_NIL)) == CFW_NIL)
+		return CFW_NIL;
 
 	if ((new->data = malloc(str->len + 1)) == NULL) {
 		cfw_release(new);
-		return NULL;
+		return CFW_NIL;
 	}
 	new->len = str->len;
 
@@ -178,7 +178,7 @@ cfw_string_set(CFWString *str, const char *cstr)
 	char *copy;
 	size_t len;
 
-	if (str != NULL) {
+	if (cstr != NULL) {
 		if ((copy = cfw_strdup(cstr)) == NULL)
 			return false;
 
@@ -212,7 +212,7 @@ cfw_string_append(CFWString *str, CFWString *append)
 {
 	char *new;
 
-	if (append == NULL)
+	if (append == CFW_NIL)
 		return true;
 
 	if ((new = realloc(str->data, str->len + append->len + 1)) == NULL)

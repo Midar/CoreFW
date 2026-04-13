@@ -29,7 +29,7 @@ cfw_new(CFWClass *class, ...)
 	CFWObject *obj;
 
 	if ((obj = malloc(class->size)) == NULL)
-		return NULL;
+		return CFW_NIL;
 
 	obj->cls = class;
 	obj->retain_cnt = 1;
@@ -40,7 +40,7 @@ cfw_new(CFWClass *class, ...)
 
 		if (!class->ctor(obj, args)) {
 			cfw_release(obj);
-			return NULL;
+			return CFW_NIL;
 		}
 
 		va_end(args);
@@ -57,7 +57,7 @@ cfw_create(CFWClass *class, ...)
 	assert(class != cfw_autoreleasepool);
 
 	if ((obj = malloc(class->size)) == NULL)
-		return NULL;
+		return CFW_NIL;
 
 	obj->cls = class;
 	obj->retain_cnt = 1;
@@ -68,7 +68,7 @@ cfw_create(CFWClass *class, ...)
 
 		if (!class->ctor(obj, args)) {
 			cfw_release(obj);
-			return NULL;
+			return CFW_NIL;
 		}
 
 		va_end(args);
@@ -76,7 +76,7 @@ cfw_create(CFWClass *class, ...)
 
 	if (!cfw_autoreleasepool_add(obj)) {
 		cfw_release(obj);
-		return NULL;
+		return CFW_NIL;
 	}
 
 	return obj;
@@ -87,8 +87,8 @@ cfw_retain(void *ptr)
 {
 	CFWObject *obj = ptr;
 
-	if (obj == NULL)
-		return NULL;
+	if (obj == CFW_NIL)
+		return CFW_NIL;
 
 	obj->retain_cnt++;
 
@@ -100,7 +100,7 @@ cfw_release(void *ptr)
 {
 	CFWObject *obj = ptr;
 
-	if (obj == NULL)
+	if (obj == CFW_NIL)
 		return;
 
 	if (--obj->retain_cnt == 0)
@@ -112,7 +112,7 @@ cfw_dealloc(void *ptr)
 {
 	CFWObject *obj = ptr;
 
-	if (obj == NULL)
+	if (obj == CFW_NIL)
 		return;
 
 	if (obj->cls->dtor != NULL)
@@ -126,8 +126,8 @@ cfw_class(void *ptr)
 {
 	CFWObject *obj = ptr;
 
-	if (obj == NULL)
-		return NULL;
+	if (obj == CFW_NIL)
+		return CFW_NIL;
 
 	return obj->cls;
 }
@@ -137,7 +137,7 @@ cfw_is(void *ptr, CFWClass *cls)
 {
 	CFWObject *obj = ptr;
 
-	if (obj == NULL || cls == NULL)
+	if (obj == CFW_NIL || cls == CFW_NIL)
 		return false;
 
 	return (obj->cls == cls);
@@ -151,7 +151,7 @@ cfw_equal(void *ptr1, void *ptr2)
 	if (obj1 == obj2)
 		return true;
 
-	if (obj1 == NULL || obj2 == NULL)
+	if (obj1 == CFW_NIL || obj2 == CFW_NIL)
 		return false;
 
 	if (obj1->cls->equal != NULL)
@@ -165,7 +165,7 @@ cfw_hash(void *ptr)
 {
 	CFWObject *obj = ptr;
 
-	if (obj == NULL)
+	if (obj == CFW_NIL)
 		return 0;
 
 	if (obj->cls->hash != NULL)
@@ -179,13 +179,13 @@ cfw_copy(void *ptr)
 {
 	CFWObject *obj = ptr;
 
-	if (obj == NULL)
-		return NULL;
+	if (obj == CFW_NIL)
+		return CFW_NIL;
 
 	if (obj->cls->copy != NULL)
 		return obj->cls->copy(obj);
 
-	return NULL;
+	return CFW_NIL;
 }
 
 static CFWClass class = {
