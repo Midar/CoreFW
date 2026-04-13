@@ -50,7 +50,7 @@ print_map(CFWMap *map)
 }
 
 int
-main()
+main(void)
 {
 	CFWRefPool *pool;
 	CFWArray *array;

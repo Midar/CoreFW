@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2013 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2012, 2013, 2026 Jonathan Schleifer <js@nil.im>
  *
  * All rights reserved.
  *
@@ -39,7 +39,7 @@ ctor(void *ptr, va_list args)
 	array->data = NULL;
 	array->size = 0;
 
-	while ((obj = va_arg(args, void*)) != NULL)
+	while ((obj = va_arg(args, void *)) != NULL)
 		if (!cfw_array_push(array, obj))
 			return false;
 
@@ -66,7 +66,7 @@ equal(void *ptr1, void *ptr2)
 	CFWArray *array1, *array2;
 	size_t i;
 
-	if (obj2->cls != cfw_array)
+	if (!cfw_is(obj2, cfw_array))
 		return false;
 
 	array1 = ptr1;
@@ -99,17 +99,17 @@ hash(void *ptr)
 	return hash;
 }
 
-static void*
+static void *
 copy(void *ptr)
 {
 	CFWArray *array = ptr;
 	CFWArray *new;
 	size_t i;
 
-	if ((new = cfw_new(cfw_array, (void*)NULL)) == NULL)
+	if ((new = cfw_new(cfw_array, (void *)NULL)) == NULL)
 		return NULL;
 
-	if ((new->data = malloc(sizeof(void*) * array->size)) == NULL) {
+	if ((new->data = malloc(sizeof(void *) * array->size)) == NULL) {
 		cfw_unref(new);
 		return NULL;
 	}
@@ -121,7 +121,7 @@ copy(void *ptr)
 	return new;
 }
 
-void*
+void *
 cfw_array_get(CFWArray *array, size_t index)
 {
 	if (index >= array->size)
@@ -160,9 +160,9 @@ cfw_array_push(CFWArray *array, void *ptr)
 	void **new;
 
 	if (array->data == NULL)
-		new = malloc(sizeof(void*));
+		new = malloc(sizeof(void *));
 	else
-		new = realloc(array->data, sizeof(void*) * (array->size + 1));
+		new = realloc(array->data, sizeof(void *) * (array->size + 1));
 
 	if (new == NULL)
 		return false;
@@ -175,7 +175,7 @@ cfw_array_push(CFWArray *array, void *ptr)
 	return true;
 }
 
-void*
+void *
 cfw_array_last(CFWArray *array)
 {
 	if (array->size == 0)

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2013 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2012, 2013, 2026 Jonathan Schleifer <js@nil.im>
  *
  * All rights reserved.
  *
@@ -84,7 +84,7 @@ cfw_stream_read(void *ptr, void *buf, size_t len)
 	}
 }
 
-CFWString*
+CFWString *
 cfw_stream_read_line(void *ptr)
 {
 	CFWStream *stream = ptr;

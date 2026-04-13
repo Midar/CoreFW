@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2012, 2026 Jonathan Schleifer <js@nil.im>
  *
  * All rights reserved.
  *
@@ -41,7 +41,7 @@ equal(void *ptr1, void *ptr2)
 	CFWObject *obj2 = ptr2;
 	CFWInt *int1, *int2;
 
-	if (obj2->cls != cfw_int)
+	if (!cfw_is(obj2, cfw_int))
 		return false;
 
 	int1 = ptr1;
@@ -58,7 +58,7 @@ hash(void *ptr)
 	return (uint32_t)integer->value;
 }
 
-static void*
+static void *
 copy(void *ptr)
 {
 	return cfw_ref(ptr);

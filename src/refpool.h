@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2012, 2026 Jonathan Schleifer <js@nil.im>
  *
  * All rights reserved.
  *
@@ -24,6 +24,6 @@
 
 typedef struct CFWRefPool CFWRefPool;
 extern CFWClass *cfw_refpool;
-extern bool cfw_refpool_add(void*);
+extern bool cfw_refpool_add(void *);
 
 #endif

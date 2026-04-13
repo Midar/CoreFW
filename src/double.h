@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2012, 2026 Jonathan Schleifer <js@nil.im>
  *
  * All rights reserved.
  *
@@ -24,6 +24,6 @@
 
 typedef struct CFWDouble CFWDouble;
 extern CFWClass *cfw_double;
-extern double cfw_double_value(CFWDouble*);
+extern double cfw_double_value(CFWDouble *);
 
 #endif

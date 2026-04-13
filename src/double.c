@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2012, 2026 Jonathan Schleifer <js@nil.im>
  *
  * All rights reserved.
  *
@@ -41,7 +41,7 @@ equal(void *ptr1, void *ptr2)
 	CFWObject *obj2 = ptr2;
 	CFWDouble *double1, *double2;
 
-	if (obj2->cls != cfw_double)
+	if (cfw_is(obj2, cfw_double))
 		return false;
 
 	double1 = ptr1;
@@ -59,7 +59,7 @@ hash(void *ptr)
 	return (uint32_t)double_->value;
 }
 
-static void*
+static void *
 copy(void *ptr)
 {
 	return cfw_ref(ptr);

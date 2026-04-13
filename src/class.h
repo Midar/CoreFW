@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2013 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2012, 2013, 2026 Jonathan Schleifer <js@nil.im>
  *
  * All rights reserved.
  *
@@ -28,13 +28,13 @@
 typedef struct CFWClass {
 	const char *name;
 	size_t size;
-	bool (*ctor)(void*, va_list);
-	void (*dtor)(void*);
-	bool (*equal)(void*, void*);
-	uint32_t (*hash)(void*);
-	void* (*copy)(void*);
+	bool (*ctor)(void *, va_list);
+	void (*dtor)(void *);
+	bool (*equal)(void *, void *);
+	uint32_t (*hash)(void *);
+	void *(*copy)(void *);
 } CFWClass;
 
-extern const char* cfw_class_name(CFWClass*);
+extern const char *cfw_class_name(CFWClass *);
 
 #endif

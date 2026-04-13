@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2013, 2014 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2012, 2013, 2014, 2026 Jonathan Schleifer <js@nil.im>
  *
  * All rights reserved.
  *
@@ -43,7 +43,7 @@ cfw_strnlen(const char *s, size_t max)
 	return i;
 }
 
-char*
+char *
 cfw_strdup(const char *s)
 {
 	char *copy;
@@ -59,7 +59,7 @@ cfw_strdup(const char *s)
 	return copy;
 }
 
-char*
+char *
 cfw_strndup(const char *s, size_t max)
 {
 	char *copy;
@@ -80,7 +80,7 @@ static bool
 ctor(void *ptr, va_list args)
 {
 	CFWString *str = ptr;
-	const char *cstr = va_arg(args, const char*);
+	const char *cstr = va_arg(args, const char *);
 
 	if (cstr != NULL) {
 		str->data = NULL;
@@ -111,7 +111,7 @@ equal(void *ptr1, void *ptr2)
 	CFWObject *obj2 = ptr2;
 	CFWString *str1, *str2;
 
-	if (obj2->cls != cfw_string)
+	if (!cfw_is(obj2, cfw_string))
 		return false;
 
 	str1 = ptr1;
@@ -140,13 +140,13 @@ hash(void *ptr)
 	return hash;
 }
 
-static void*
+static void *
 copy(void *ptr)
 {
 	CFWString *str = ptr;
 	CFWString *new;
 
-	if ((new = cfw_new(cfw_string, (void*)NULL)) == NULL)
+	if ((new = cfw_new(cfw_string, (void *)NULL)) == NULL)
 		return NULL;
 
 	if ((new->data = malloc(str->len + 1)) == NULL) {
@@ -160,7 +160,7 @@ copy(void *ptr)
 	return new;
 }
 
-char*
+char *
 cfw_string_c(CFWString *str)
 {
 	return str->data;

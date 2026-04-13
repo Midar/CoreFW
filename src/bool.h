@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2012, 2026 Jonathan Schleifer <js@nil.im>
  *
  * All rights reserved.
  *
@@ -24,6 +24,6 @@
 
 typedef struct CFWBool CFWBool;
 extern CFWClass *cfw_bool;
-extern bool cfw_bool_value(CFWBool*);
+extern bool cfw_bool_value(CFWBool *);
 
 #endif

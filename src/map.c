@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2013 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2012, 2013, 2026 Jonathan Schleifer <js@nil.im>
  *
  * All rights reserved.
  *
@@ -46,8 +46,8 @@ ctor(void *ptr, va_list args)
 	map->size = 0;
 	map->items = 0;
 
-	while ((key = va_arg(args, void*)) != NULL)
-		if (!cfw_map_set(map, key, va_arg(args, void*)))
+	while ((key = va_arg(args, void *)) != NULL)
+		if (!cfw_map_set(map, key, va_arg(args, void *)))
 			return false;
 
 	return true;
@@ -112,14 +112,14 @@ hash(void *ptr)
 	return hash;
 }
 
-static void*
+static void *
 copy(void *ptr)
 {
 	CFWMap *map = ptr;
 	CFWMap *new;
 	uint32_t i;
 
-	if ((new = cfw_new(cfw_map, (void*)NULL)) == NULL)
+	if ((new = cfw_new(cfw_map, (void *)NULL)) == NULL)
 		return NULL;
 
 	if ((new->data = malloc(sizeof(*new->data) * map->size)) == NULL)
@@ -165,11 +165,8 @@ resize(CFWMap *map, uint32_t items)
 	if (nsize == 0)
 		return false;
 
-	if ((ndata = malloc(nsize * sizeof(*ndata))) == NULL)
+	if ((ndata = calloc(nsize, sizeof(*ndata))) == NULL)
 		return false;
-
-	for (i = 0; i < nsize; i++)
-		ndata[i] = NULL;
 
 	for (i = 0; i < map->size; i++) {
 		if (map->data[i] != NULL && map->data[i] != &deleted) {
@@ -209,7 +206,7 @@ cfw_map_size(CFWMap *map)
 	return map->items;
 }
 
-void*
+void *
 cfw_map_get(CFWMap *map, void *key)
 {
 	uint32_t i, hash, last;
@@ -246,7 +243,7 @@ cfw_map_get(CFWMap *map, void *key)
 	return NULL;
 }
 
-void*
+void *
 cfw_map_get_c(CFWMap *map, const char *key)
 {
 	CFWString *str;

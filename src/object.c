@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2012, 2026 Jonathan Schleifer <js@nil.im>
  *
  * All rights reserved.
  *
@@ -23,7 +23,7 @@
 #include "object.h"
 #include "refpool.h"
 
-void*
+void *
 cfw_new(CFWClass *class, ...)
 {
 	CFWObject *obj;
@@ -49,7 +49,7 @@ cfw_new(CFWClass *class, ...)
 	return obj;
 }
 
-void*
+void *
 cfw_create(CFWClass *class, ...)
 {
 	CFWObject *obj;
@@ -82,7 +82,7 @@ cfw_create(CFWClass *class, ...)
 	return obj;
 }
 
-void*
+void *
 cfw_ref(void *ptr)
 {
 	CFWObject *obj = ptr;
@@ -174,7 +174,7 @@ cfw_hash(void *ptr)
 	return (uint32_t)(uintptr_t)ptr;
 }
 
-void*
+void *
 cfw_copy(void *ptr)
 {
 	CFWObject *obj = ptr;

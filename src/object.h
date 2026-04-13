@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2012, 2026 Jonathan Schleifer <js@nil.im>
  *
  * All rights reserved.
  *
@@ -28,15 +28,15 @@ typedef struct CFWObject {
 } CFWObject;
 
 extern CFWClass *cfw_object;
-extern void* cfw_new(CFWClass*, ...);
-extern void* cfw_create(CFWClass*, ...);
-extern void* cfw_ref(void*);
-extern void cfw_unref(void*);
-extern void cfw_free(void*);
-extern CFWClass* cfw_class(void*);
-extern bool cfw_is(void*, CFWClass*);
-extern bool cfw_equal(void*, void*);
-extern uint32_t cfw_hash(void*);
-extern void* cfw_copy(void*);
+extern void *cfw_new(CFWClass *, ...);
+extern void *cfw_create(CFWClass *, ...);
+extern void *cfw_ref(void *);
+extern void cfw_unref(void *);
+extern void cfw_free(void *);
+extern CFWClass* cfw_class(void *);
+extern bool cfw_is(void *, CFWClass *);
+extern bool cfw_equal(void *, void *);
+extern uint32_t cfw_hash(void *);
+extern void* cfw_copy(void *);
 
 #endif

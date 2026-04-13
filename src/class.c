@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2012, 2026 Jonathan Schleifer <js@nil.im>
  *
  * All rights reserved.
  *
@@ -19,7 +19,7 @@
 
 #include "class.h"
 
-const char*
+const char *
 cfw_class_name(CFWClass *cls)
 {
 	return cls->name;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2012, 2026 Jonathan Schleifer <js@nil.im>
  *
  * All rights reserved.
  *
@@ -24,6 +24,6 @@
 
 typedef struct CFWInt CFWInt;
 extern CFWClass *cfw_int;
-extern intmax_t cfw_int_value(CFWInt*);
+extern intmax_t cfw_int_value(CFWInt *);
 
 #endif

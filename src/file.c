@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2012, 2026 Jonathan Schleifer <js@nil.im>
  *
  * All rights reserved.
  *
@@ -135,8 +135,8 @@ static bool
 ctor(void *ptr, va_list args)
 {
 	CFWFile *file = ptr;
-	const char *path = va_arg(args, const char*);
-	const char *mode = va_arg(args, const char*);
+	const char *path = va_arg(args, const char *);
+	const char *mode = va_arg(args, const char *);
 	int flags;
 
 	/* Make sure we have a valid file in case we error out */

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2012, 2026 Jonathan Schleifer <js@nil.im>
  *
  * All rights reserved.
  *
@@ -23,6 +23,6 @@
 typedef struct CFWTCPSocket CFWTCPSocket;
 
 extern CFWClass *cfw_tcpsocket;
-extern bool cfw_tcpsocket_connect(CFWTCPSocket*, const char*, uint16_t);
+extern bool cfw_tcpsocket_connect(CFWTCPSocket *, const char *, uint16_t);
 
 #endif

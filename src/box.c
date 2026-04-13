@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2012, 2026 Jonathan Schleifer <js@nil.im>
  *
  * All rights reserved.
  *
@@ -34,7 +34,7 @@ ctor(void *ptr, va_list args)
 {
 	CFWBox *box = ptr;
 
-	box->ptr = va_arg(args, void*);
+	box->ptr = va_arg(args, void *);
 	box->type = va_arg(args, uint32_t);
 	box->free = va_arg(args, int);
 

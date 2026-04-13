@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2012, 2026 Jonathan Schleifer <js@nil.im>
  *
  * All rights reserved.
  *
@@ -41,7 +41,7 @@ equal(void *ptr1, void *ptr2)
 	CFWObject *obj2 = ptr2;
 	CFWBool *boolean1, *boolean2;
 
-	if (obj2->cls != cfw_bool)
+	if (!cfw_is(obj2, cfw_bool))
 		return false;
 
 	boolean1 = ptr1;

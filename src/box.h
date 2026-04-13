@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2012, 2026 Jonathan Schleifer <js@nil.im>
  *
  * All rights reserved.
  *
@@ -24,7 +24,7 @@
 
 typedef struct CFWBox CFWBox;
 extern CFWClass *cfw_box;
-extern void* cfw_box_ptr(CFWBox*);
-extern uint32_t cfw_box_type(CFWBox*);
+extern void *cfw_box_ptr(CFWBox *);
+extern uint32_t cfw_box_type(CFWBox *);
 
 #endif

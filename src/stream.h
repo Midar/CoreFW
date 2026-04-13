@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2012, 2026 Jonathan Schleifer <js@nil.im>
  *
  * All rights reserved.
  *
@@ -27,10 +27,10 @@
 #include "string.h"
 
 struct cfw_stream_ops {
-	ssize_t (*read)(void*, void*, size_t);
-	bool (*write)(void*, const void*, size_t);
-	bool (*at_end)(void*);
-	void (*close)(void*);
+	ssize_t (*read)(void *, void *, size_t);
+	bool (*write)(void *, const void *, size_t);
+	bool (*at_end)(void *);
+	void (*close)(void *);
 };
 
 typedef struct CFWStream {
@@ -41,11 +41,11 @@ typedef struct CFWStream {
 } CFWStream;
 
 extern CFWClass *cfw_stream;
-extern ssize_t cfw_stream_read(void*, void*, size_t);
-extern CFWString* cfw_stream_read_line(void*);
-extern bool cfw_stream_write(void*, const void*, size_t);
-extern bool cfw_stream_write_string(void*, const char*);
-extern bool cfw_stream_write_line(void*, const char*);
-extern bool cfw_stream_at_end(void*);
-extern void cfw_stream_close(void*);
+extern ssize_t cfw_stream_read(void *, void *, size_t);
+extern CFWString* cfw_stream_read_line(void *);
+extern bool cfw_stream_write(void *, const void *, size_t);
+extern bool cfw_stream_write_string(void *, const char *);
+extern bool cfw_stream_write_line(void *, const char *);
+extern bool cfw_stream_at_end(void *);
+extern void cfw_stream_close(void *);
 #endif

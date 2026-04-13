@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012 Jonathan Schleifer <js@nil.im>
+ * Copyright (c) 2012, 2026 Jonathan Schleifer <js@nil.im>
  *
  * All rights reserved.
  *
@@ -33,11 +33,11 @@ typedef struct cfw_map_iter_t {
 
 extern CFWClass *cfw_map;
 extern size_t cfw_map_size(CFWMap*);
-extern void* cfw_map_get(CFWMap*, void*);
-extern void* cfw_map_get_c(CFWMap*, const char*);
-extern bool cfw_map_set(CFWMap*, void*, void*);
-extern bool cfw_map_set_c(CFWMap*, const char*, void*);
-extern void cfw_map_iter(CFWMap*, cfw_map_iter_t*);
+extern void *cfw_map_get(CFWMap*, void *);
+extern void *cfw_map_get_c(CFWMap*, const char *);
+extern bool cfw_map_set(CFWMap*, void *, void *);
+extern bool cfw_map_set_c(CFWMap*, const char *, void *);
+extern void cfw_map_iter(CFWMap*, cfw_map_iter_t *);
 extern void cfw_map_iter_next(cfw_map_iter_t*);
 
 #endif
